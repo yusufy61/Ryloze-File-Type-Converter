@@ -16,6 +16,7 @@ export const FileQueue = ({
   onStartConversion,
   onStartAll,
   onCancelAll,
+  onDownload,
 }) => {
   const formatOptions = {
     image: ['JPEG', 'PNG', 'WEBP', 'ICO', 'GIF', 'TIFF', 'PDF'],
@@ -40,12 +41,7 @@ export const FileQueue = ({
     const k = 1024;
     const sizes = ['Bytes', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
-  };
-
-  const handleDownload = (file) => {
-    toast.success(`${file.name} indiriliyor...`);
-    // Mock download
+    return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
   };
 
   const handleRetry = (file) => {
@@ -55,6 +51,7 @@ export const FileQueue = ({
 
   const getStatusBadge = (status) => {
     const statusConfig = {
+      uploading: { label: 'Yükleniyor', variant: 'default', icon: Loader2 },
       queued: { label: 'Sırada', variant: 'secondary', icon: null },
       processing: { label: 'İşleniyor', variant: 'default', icon: Loader2 },
       completed: { label: 'Tamamlandı', variant: 'success', icon: CheckCircle2 },
@@ -66,7 +63,13 @@ export const FileQueue = ({
 
     return (
       <Badge variant={config.variant} className="text-xs">
-        {Icon && <Icon className={`mr-1 h-3 w-3 ${status === 'processing' ? 'animate-spin' : ''}`} />}
+        {Icon && (
+          <Icon
+            className={`mr-1 h-3 w-3 ${
+              status === 'processing' || status === 'uploading' ? 'animate-spin' : ''
+            }`}
+          />
+        )}
         {config.label}
       </Badge>
     );
@@ -76,7 +79,7 @@ export const FileQueue = ({
     return (
       <Card className="p-12 text-center">
         <div className="text-muted-foreground">
-          <p className="text-lg mb-2">Henüz dosya yüklenmed i</p>
+          <p className="text-lg mb-2">Henüz dosya yüklenmedi</p>
           <p className="text-sm">Yukarıdaki alana dosyalarınızı sürükleyin</p>
         </div>
       </Card>
@@ -123,9 +126,7 @@ export const FileQueue = ({
                   <p className="text-sm font-medium text-foreground truncate">{file.name}</p>
                   {getStatusBadge(file.status)}
                 </div>
-                <p className="text-xs text-muted-foreground mb-3">
-                  {formatFileSize(file.size)}
-                </p>
+                <p className="text-xs text-muted-foreground mb-3">{formatFileSize(file.size)}</p>
 
                 {/* Format Selection */}
                 <div className="flex items-center space-x-2 mb-3">
@@ -133,7 +134,7 @@ export const FileQueue = ({
                   <Select
                     value={file.outputFormat}
                     onValueChange={(value) => onFileUpdate(file.id, { outputFormat: value })}
-                    disabled={file.status === 'processing' || file.status === 'completed'}
+                    disabled={['processing', 'completed', 'uploading'].includes(file.status)}
                   >
                     <SelectTrigger className="h-8 text-xs w-[120px]">
                       <SelectValue placeholder="Seçin" />
@@ -149,10 +150,10 @@ export const FileQueue = ({
                 </div>
 
                 {/* Progress Bar */}
-                {file.status === 'processing' && (
+                {['processing', 'uploading'].includes(file.status) && (
                   <div className="space-y-1">
                     <Progress value={file.progress} className="h-2" />
-                    <p className="text-xs text-muted-foreground">%{file.progress}</p>
+                    <p className="text-xs text-muted-foreground">%{Math.round(file.progress)}</p>
                   </div>
                 )}
               </div>
@@ -177,7 +178,7 @@ export const FileQueue = ({
                     variant="ghost"
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleDownload(file);
+                      onDownload(file);
                     }}
                   >
                     <Download className="h-4 w-4" />
