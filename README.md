@@ -182,7 +182,7 @@ DEBUG=true
 
 ### Frontend (.env.local)
 ```env
-REACT_APP_API_URL=http://localhost:8000/api
+REACT_APP_API_URL=http://localhost:8080/api
 REACT_APP_DEBUG=true
 ```
 
@@ -268,7 +268,7 @@ server {
     server_name example.com;
 
     location /api {
-        proxy_pass http://localhost:8000;
+        proxy_pass http://localhost:8080;
     }
 
     location / {
@@ -283,6 +283,19 @@ docker-compose -f docker-compose.yml up -d
 ```
 
 ---
+
+## Uygulama içi Fotoğraflar
+
+<img width="1918" height="951" alt="image" src="https://github.com/user-attachments/assets/59f95fde-361e-45b9-b62d-2760d3ad942b" />
+
+<img width="1918" height="954" alt="image" src="https://github.com/user-attachments/assets/ab5042f3-7997-46dd-9460-fa84932014b6" />
+
+<img width="1918" height="951" alt="image" src="https://github.com/user-attachments/assets/fb943c95-e30a-48c6-bdee-755175029042" />
+
+<img width="1919" height="953" alt="image" src="https://github.com/user-attachments/assets/32fd88cc-63c9-4a03-9c31-a532083e4089" />
+
+<img width="1918" height="943" alt="image" src="https://github.com/user-attachments/assets/97296fe5-c37d-471b-bb6b-7edf5ee96804" />
+
 
 ## 📈 Performans
 
@@ -328,28 +341,6 @@ Daha fazla bilgi: [QUICK_START.md](./QUICK_START.md#-sorun-giderme)
 - 🍃 [MongoDB Documentation](https://docs.mongodb.com/)
 - 🐳 [Docker Documentation](https://docs.docker.com/)
 
----
-
-## 🤝 Katkıda Bulunma
-
-```bash
-# Fork yap
-# Clone et
-git clone https://github.com/your-username/ryloze-converter.git
-
-# Feature branch oluştur
-git checkout -b feature/amazing-feature
-
-# Commit yap
-git commit -m 'Add amazing feature'
-
-# Push yap
-git push origin feature/amazing-feature
-
-# Pull Request aç
-```
-
----
 
 ## 📝 Lisans
 
@@ -359,7 +350,7 @@ MIT License - Açık kaynak
 
 ## 👨‍💻 Geliştirici
 
-**Ryloze Development Team**
+**Ryloze & Shekil Development Team**
 
 ---
 
@@ -374,29 +365,7 @@ MIT License - Açık kaynak
 
 ## 📞 İletişim
 
-- 📧 Email: support@ryloze.com
-- 🐦 Twitter: @ryloze
-- 💬 Discord: [Community](https://discord.gg/ryloze)
+- 📧 Email: yusufyildiz@shekil.com
 
----
-
-## 📊 Durum
-
-| Özellik | Durum |
-|---------|-------|
-| Backend | ✅ Tamamlandı |
-| Frontend | ✅ Tamamlandı |
-| API | ✅ Tamamlandı |
-| Belgeler | ✅ Tamamlandı |
-| Docker | ✅ Hazır |
-| Production | ✅ Ready |
-
----
-
-**Başlamaya hazır mısın?** → [QUICK_START.md](./QUICK_START.md)
-
-**Daha fazla bilgi?** → [SETUP.md](./SETUP.md)
-
----
 
 *Tarih: 28 Kasım 2024 | Versiyon: 1.0.0 | Status: Production Ready ✅*
